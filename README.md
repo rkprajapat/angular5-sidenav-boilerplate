@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
 
 ## Added Components
-This project has prebuilt responsive sidenav along with material and bootstrap embedded into it.
+This project has prebuilt responsive sidenav along with angular material and bootstrap embedded into it.
 
 ## Development server
 

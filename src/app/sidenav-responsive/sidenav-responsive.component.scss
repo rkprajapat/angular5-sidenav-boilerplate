@@ -34,3 +34,13 @@ a.nav-item{
   border-bottom: 1px solid black;
   padding-bottom: 5px;
 }
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.common-icon {
+  padding: 0 14px;
+}

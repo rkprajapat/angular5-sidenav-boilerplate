@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import {Response} from '@angular/http';
 
 import { AppService } from 'app/services/app.service';
-import { Instance } from 'app/classes/instance';
+import { Instance } from 'app/interfaces/instance';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InstanceService implements AppService {
+export class InstanceService {
   url = 'http://127.0.0.1:5000/instances';
 
-  constructor(private appService: AppService) {}
+  constructor(private app: AppService) { }
 
   // Get all
   getAll(): Observable<Instance[]> {
-    console.log('Loading instances');
-    return this.appService.http.get(this.url)
-      .pipe(map(res => this.appService.extractData(res)))
-      .pipe(catchError(error => this.appService.handleError(error)));
+    return this.app.http.get(this.url, {observe: 'response'})
+      .pipe(map(res => this.app.extractData(res, 'Instances loaded successfully')))
+      .pipe(catchError(error => this.app.handleError(error)));
   }
   //
   // // create

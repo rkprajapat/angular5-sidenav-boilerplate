@@ -1,3 +1,76 @@
-<p>
-  instances works!
-</p>
+<!-- <mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Type Instance name to search" width=100%>
+</mat-form-field>
+
+<small class="form-text text-muted">Click on Instance to see details.</small>
+<table mat-table [dataSource]="tableSource" class="mat-elevation-z8" width=100%> -->
+
+  <!-- Position Column -->
+  <!-- <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container> -->
+
+  <!-- Name Column -->
+  <!-- <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container> -->
+
+  <!-- Weight Column -->
+  <!-- <ng-container matColumnDef="active">
+    <th mat-header-cell *matHeaderCellDef> Active </th>
+    <td mat-cell *matCellDef="let element">
+      <i class="material-icons" *ngIf="element.active">done</i>
+    </td>
+
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></tr>
+</table> -->
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let instance of instances">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{instance.name}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="badge badge-info badge-pill">ID: {{instance.id}}</span>
+        <span class="badge badge-dark badge-pill" *ngIf="!instance.active">Inactive</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card>
+      <mat-card-content>
+        <div>
+          <mat-form-field>
+            <input matInput [(ngModel)]="instance.name" name="name" placeholder="Name">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput [(ngModel)]="instance.owner_name" name="owner_name" placeholder="Owner Name">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput [(ngModel)]="instance.owner_email" name="owner_email" placeholder="Owner Email">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-slide-toggle [(ngModel)]="instance.active" name="active" labelPosition="before">Active</mat-slide-toggle>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button class="pull-right" color="primary">Update</button>
+      </mat-card-actions>
+      <mat-card-footer>
+        <mat-chip-list>
+          <mat-chip>Created: {{instance.created_at | date:'short' }}</mat-chip>
+          <mat-chip>Modified: {{instance.modified_at | date:'short' }}</mat-chip>
+        </mat-chip-list>
+      </mat-card-footer>
+    </mat-card>
+  </mat-expansion-panel>
+</mat-accordion>

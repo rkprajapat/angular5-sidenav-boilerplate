@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+
 
 import { MessageService } from 'app/services/message.service';
 
@@ -22,16 +23,14 @@ export class AppService {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);
     }
-    const body = res.json();
-    console.log(body);
     if (msg !== '') { this.messages.add(msg); }
-    return body || { };
+    return JSON.parse(JSON.stringify(res.body)) || { };
   }
 
   // handles service call errors
-  public handleError (error: any | any) {
+  public handleError (error) {
     this.messages.add(error.message || error);
-    return Observable.throw(error.status);
+    return throwError(error.status);
   }
 
   // return message for successfuly edits

@@ -3,6 +3,7 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {MaterialModule} from './material.module';
 
@@ -29,7 +30,8 @@ import { InstancesComponent } from 'app/components/instances/instances.component
     MaterialModule,
     NgbModule.forRoot(),
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent, SidenavResponsiveComponent],

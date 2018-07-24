@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {MatTableDataSource} from '@angular/material';
 
 import { InstanceService } from 'app/services/instance.service';
-import { Instance } from 'app/classes/instance';
+import { Instance } from 'app/interfaces/instance';
 
 
 @Component({
@@ -11,6 +12,8 @@ import { Instance } from 'app/classes/instance';
 })
 export class InstancesComponent implements OnInit {
   instances: Instance[];
+  tableSource: any;
+  displayedColumns = ['id', 'name', 'active'];
   selectedInstance: Instance;
 
   constructor(private instanceService: InstanceService) { }
@@ -20,16 +23,33 @@ export class InstancesComponent implements OnInit {
     this.getAll();
   }
 
+  // Table filter
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.tableSource.filter = filterValue;
+  }
+
+  // Default click behaviour on table
+  onRowClicked(row) {
+    console.log('Row clicked: ', row);
+  }
+
   // Load all instances
   getAll(): void {
     this.instanceService.getAll()
-      .subscribe(data => this.instances = data);
+      .subscribe(data => {
+        this.instances = data.map(i => JSON.parse(i));
+        this.tableSource = new MatTableDataSource(this.instances);
+        console.log(this.instances);
+      },
+        error => { console.error(error); });
   }
 
   // select an instance
   onSelect(instance: Instance): void {
     this.selectedInstance = instance;
-    this.instanceService.getOne(instance.id).subscribe(data => this.selectedInstance = data);
+    // this.instanceService.getOne(instance.id).subscribe(data => this.selectedInstance = data);
   }
 
 

@@ -1,35 +1,3 @@
-<!-- <mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Type Instance name to search" width=100%>
-</mat-form-field>
-
-<small class="form-text text-muted">Click on Instance to see details.</small>
-<table mat-table [dataSource]="tableSource" class="mat-elevation-z8" width=100%> -->
-
-  <!-- Position Column -->
-  <!-- <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container> -->
-
-  <!-- Name Column -->
-  <!-- <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container> -->
-
-  <!-- Weight Column -->
-  <!-- <ng-container matColumnDef="active">
-    <th mat-header-cell *matHeaderCellDef> Active </th>
-    <td mat-cell *matCellDef="let element">
-      <i class="material-icons" *ngIf="element.active">done</i>
-    </td>
-
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></tr>
-</table> -->
-
 <mat-accordion>
   <mat-expansion-panel *ngFor="let instance of instances">
     <mat-expansion-panel-header>

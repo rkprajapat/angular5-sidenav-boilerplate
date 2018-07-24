@@ -39,7 +39,7 @@ export class InstancesComponent implements OnInit {
   getAll(): void {
     this.instanceService.getAll()
       .subscribe(data => {
-        this.instances = data.map(i => JSON.parse(i));
+        this.instances = data.map((i: Instance) => JSON.parse(i));
         this.tableSource = new MatTableDataSource(this.instances);
         console.log(this.instances);
       },

@@ -20,14 +20,21 @@ export class AppService {
     public messages: MessageService,
     private spinnerService: SpinnerService) { }
 
+  data: any;
+
   // extracts information from service calls
   public extractData(res, msg = '') {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);
     }
     if (msg !== '') { this.messages.add(msg); }
+    if (res.body instanceof Array) {
+      this.data = res.body.map(i => JSON.parse(i));
+    } else {
+      this.data = res.body;
+    }
     this.spinnerService.display(false);
-    return res.body || {};
+    return this.data || {};
   }
 
   // handles service call errors

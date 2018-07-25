@@ -42,7 +42,7 @@ export class InstancesComponent implements OnInit {
     this.spinnerService.display(true);
     this.instanceService.getAll()
       .subscribe(data => {
-        this.instances = data.map(i => JSON.parse(i));
+        this.instances = data;
         this.tableSource = new MatTableDataSource(this.instances);
         console.log(this.instances);
       },

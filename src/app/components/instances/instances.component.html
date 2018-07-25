@@ -5,25 +5,27 @@
         {{instance.name}}
       </mat-panel-title>
       <mat-panel-description>
-        <span class="badge badge-info badge-pill">ID: {{instance.id}}</span>
-        <span class="badge badge-dark badge-pill" *ngIf="!instance.active">Inactive</span>
+        <mat-chip-list>
+          <mat-chip color="primary" selected>ID: {{instance.id}}</mat-chip>
+          <mat-chip *ngIf="!instance.active" color="warn" selected>Inactive</mat-chip>
+        </mat-chip-list>
       </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-card>
       <mat-card-content>
         <div>
           <mat-form-field>
-            <input matInput [(ngModel)]="instance.name" name="name" placeholder="Name">
+            <input matInput [(ngModel)]="instance.name" name="name" placeholder="Name" required>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field>
-            <input matInput [(ngModel)]="instance.owner_name" name="owner_name" placeholder="Owner Name">
+            <input matInput [(ngModel)]="instance.owner_name" name="owner_name" placeholder="Owner Name" required>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field>
-            <input matInput [(ngModel)]="instance.owner_email" name="owner_email" placeholder="Owner Email">
+            <input matInput [(ngModel)]="instance.owner_email" name="owner_email" placeholder="Owner Email" required>
           </mat-form-field>
         </div>
         <div>
@@ -32,11 +34,12 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button class="pull-right" color="primary">Update</button>
+        <button mat-raised-button class="pull-right">Cancel</button>
       </mat-card-actions>
       <mat-card-footer>
         <mat-chip-list>
-          <mat-chip>Created: {{instance.created_at | date:'short' }}</mat-chip>
-          <mat-chip>Modified: {{instance.modified_at | date:'short' }}</mat-chip>
+          <mat-chip><small>Created: {{instance.created_at | date:'long' }}</small></mat-chip>
+          <mat-chip><small>Modified: {{instance.modified_at | date:'long' }}</small></mat-chip>
         </mat-chip-list>
       </mat-card-footer>
     </mat-card>

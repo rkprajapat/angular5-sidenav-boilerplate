@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import {Response} from '@angular/http';
+import { Response } from '@angular/http';
 
 import { AppService } from 'app/services/app.service';
 import { Instance } from 'app/interfaces/instance';
@@ -16,7 +16,7 @@ export class InstanceService {
 
   // Get all
   getAll(): Observable<Instance[]> {
-    return this.app.http.get(this.url, {observe: 'response'})
+    return this.app.http.get(this.url, { observe: 'response' })
       .pipe(map(res => this.app.extractData(res, 'Instances loaded successfully')))
       .pipe(catchError(error => this.app.handleError(error)));
   }

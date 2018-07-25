@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 
 
 import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +17,8 @@ const httpOptions = {
 // @Injectable()
 export class AppService {
   constructor(public http: HttpClient,
-  public messages: MessageService) { }
+    public messages: MessageService,
+    private spinnerService: SpinnerService) { }
 
   // extracts information from service calls
   public extractData(res, msg = '') {
@@ -24,12 +26,14 @@ export class AppService {
       throw new Error('Bad response status: ' + res.status);
     }
     if (msg !== '') { this.messages.add(msg); }
-    return JSON.parse(JSON.stringify(res.body)) || { };
+    this.spinnerService.display(false);
+    return res.body || {};
   }
 
   // handles service call errors
-  public handleError (error) {
+  public handleError(error) {
     this.messages.add(error.message || error);
+    this.spinnerService.display(false);
     return throwError(error.status);
   }
 
@@ -38,5 +42,6 @@ export class AppService {
     if (msg !== '') {
       this.messages.add(msg);
     }
+    this.spinnerService.display(false);
   }
 }

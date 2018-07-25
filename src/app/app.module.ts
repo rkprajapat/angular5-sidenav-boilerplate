@@ -1,11 +1,11 @@
 import { BrowserModule, enableDebugTools } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {MaterialModule} from './material.module';
+import { MaterialModule } from './material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-respons
 import { ProjectsSummaryComponent } from 'app/components/projects-summary/projects-summary.component';
 import { MessagesComponent } from 'app/components/messages/messages.component';
 import { InstancesComponent } from 'app/components/instances/instances.component';
+import { SpinnerService } from 'app/services/spinner.service';
 
 
 
@@ -33,7 +34,7 @@ import { InstancesComponent } from 'app/components/instances/instances.component
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [SpinnerService],
   bootstrap: [AppComponent, SidenavResponsiveComponent],
   // entryComponents: []
 })

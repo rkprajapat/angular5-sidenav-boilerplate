@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 
+import { SpinnerService } from 'app/services/spinner.service';
 import { InstanceService } from 'app/services/instance.service';
 import { Instance } from 'app/interfaces/instance';
 
@@ -16,7 +17,8 @@ export class InstancesComponent implements OnInit {
   displayedColumns = ['id', 'name', 'active'];
   selectedInstance: Instance;
 
-  constructor(private instanceService: InstanceService) { }
+  constructor(private instanceService: InstanceService,
+    private spinnerService: SpinnerService) { }
 
   // Load all instances
   ngOnInit() {
@@ -37,9 +39,10 @@ export class InstancesComponent implements OnInit {
 
   // Load all instances
   getAll(): void {
+    this.spinnerService.display(true);
     this.instanceService.getAll()
       .subscribe(data => {
-        this.instances = data.map((i: Instance) => JSON.parse(i));
+        this.instances = data.map(i => JSON.parse(i));
         this.tableSource = new MatTableDataSource(this.instances);
         console.log(this.instances);
       },

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 
-import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 
 const httpOptions = {
@@ -17,37 +17,75 @@ const httpOptions = {
 // @Injectable()
 export class AppService {
   constructor(public http: HttpClient,
-    public messages: MessageService,
-    private spinnerService: SpinnerService) { }
+    private spinnerService: SpinnerService,
+    private snotifyService: SnotifyService,
+    private tokenExtractor: HttpXsrfTokenExtractor) { }
 
+  api_url = 'http://localhost:5000';
   data: any;
+  error_msg: any;
+  csrf_token: string;
 
   // extracts information from service calls
   public extractData(res, msg = '') {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);
     }
-    if (msg !== '') { this.messages.add(msg); }
+    if (res.body === null) {
+      this.passMessage('No results found');
+      return;
+    }
     if (res.body instanceof Array) {
       this.data = res.body.map(i => JSON.parse(i));
-    } else {
+    } else if (res.body) {
       this.data = res.body;
+    } else {
+      this.data = res;
     }
+    // // TODO: enable later
+    // this.csrf_token = <string>this.tokenExtractor.getToken();
     this.spinnerService.display(false);
+    if (msg !== '') {
+      this.snotifyService.success(msg, 'Success', {
+        timeout: 2000,
+        showProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true
+      });
+    }
     return this.data || {};
   }
 
   // handles service call errors
-  public handleError(error) {
-    this.messages.add(error.message || error);
+  public handleError(error = null, msg = null) {
+    this.error_msg = '';
+
+    if (error && msg) {
+      this.error_msg = msg + ' - ' + error.status + ' ' + error.statusText;
+    } else {
+      this.error_msg = msg || error.status + ' ' + error.statusText;
+    }
+
+    this.snotifyService.error(this.error_msg, 'Error', {
+      timeout: 2000,
+      showProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true
+    });
+
     this.spinnerService.display(false);
-    return throwError(error.status);
+    return throwError(this.error_msg);
   }
 
   // return message for successfuly edits
   public passMessage(msg = '') {
     if (msg !== '') {
-      this.messages.add(msg);
+      this.snotifyService.info(msg, 'Information', {
+        timeout: 2000,
+        showProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true
+      });
     }
     this.spinnerService.display(false);
   }

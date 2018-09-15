@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { SpinnerService } from 'app/services/spinner.service';
 import { InstanceService } from 'app/services/instance.service';
 import { Instance } from 'app/interfaces/instance';
-
+import { DeleteConfirmDialogComponent } from 'app/shared/delete-confirm-dialog/delete-confirm-dialog.component';
 
 @Component({
   selector: 'app-instances',
@@ -13,47 +13,49 @@ import { Instance } from 'app/interfaces/instance';
 })
 export class InstancesComponent implements OnInit {
   instances: Instance[];
-  tableSource: any;
-  displayedColumns = ['id', 'name', 'active'];
-  selectedInstance: Instance;
 
   constructor(private instanceService: InstanceService,
-    private spinnerService: SpinnerService) { }
+    private spinnerService: SpinnerService,
+    public dialog: MatDialog) { }
 
   // Load all instances
   ngOnInit() {
     this.getAll();
   }
 
-  // Table filter
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.tableSource.filter = filterValue;
-  }
-
-  // Default click behaviour on table
-  onRowClicked(row) {
-    console.log('Row clicked: ', row);
-  }
-
-  // Load all instances
+  /**
+   * it returns all instances and loads in instances variable
+   */
   getAll(): void {
-    this.spinnerService.display(true);
+    this.spinnerService.display(true); // starts running the spinner until data is returned
     this.instanceService.getAll()
       .subscribe(data => {
         this.instances = data;
-        this.tableSource = new MatTableDataSource(this.instances);
-        console.log(this.instances);
       },
         error => { console.error(error); });
   }
 
-  // select an instance
-  onSelect(instance: Instance): void {
-    this.selectedInstance = instance;
-    // this.instanceService.getOne(instance.id).subscribe(data => this.selectedInstance = data);
+  /**
+   * deletes an instance
+   * @param id   [id of the instance]
+   * @param name [name of the instance]
+   */
+  delete(id, name): void {
+    // open the delete confirmation dialog
+    const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+      data: {
+        type: 'instance',
+        name: name,
+      }
+    });
+    // wait for dialog value to be returned
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        this.spinnerService.display(true);
+        this.instanceService.delete(id).subscribe(res => this.getAll(), error => { console.error(error); });
+      }
+    },
+      error => { console.error(error); });
   }
-
 
 }

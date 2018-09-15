@@ -13,7 +13,8 @@ export class SidenavResponsiveComponent implements OnInit, OnDestroy {
   showSpinner: boolean;
 
   fillerNav = [
-    { name: 'Instances', path: 'instance' },
+    { name: 'Instances', path: 'instances' },
+    { name: 'Users', path: 'users' },
     { name: 'Admin', path: 'admin' },
     { name: 'Help', path: 'help' }
   ];

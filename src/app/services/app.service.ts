@@ -32,7 +32,7 @@ export class AppService {
       throw new Error('Bad response status: ' + res.status);
     }
     if (res.body === null) {
-      this.passMessage('No results found');
+      this.spinnerService.display(false);
       return;
     }
     if (res.body instanceof Array) {

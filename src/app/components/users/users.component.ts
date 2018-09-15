@@ -1,4 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Observable, of, from } from 'rxjs';
+import { concat, map, merge } from 'rxjs/operators';
 
 import { SpinnerService } from 'app/services/spinner.service';
 import { UserService } from 'app/services/user.service';
@@ -10,7 +12,8 @@ import { User } from 'app/interfaces/user';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  users: User[] = [];
+  users$: Observable<User[]>;
+  all_users: User[] = [];
   search_term: string;
   limit = 100;
   offset = 0;
@@ -43,16 +46,22 @@ export class UsersComponent implements OnInit {
    */
   getAll(): void {
     this.spinnerService.display(true); // starts running the spinner until data is returned
-    this.userService.getAll(this.search_term, this.offset, this.limit)
-      .subscribe(data => { this.users = this.users.concat(data); },
-        error => { console.error(error); });
+    this.userService.getAll(this.search_term, this.offset, this.limit).
+      subscribe(data => {
+        if (data && data.length > 0) {
+          this.all_users = this.all_users.concat(data);
+        }
+        this.users$ = of(this.all_users);
+      },
+        error => console.error(error));
   }
 
   /**
    * [search description]
    */
   search(): void {
-    this.users = [];
+    this.all_users = [];
+    this.offset = 0;
     this.getAll();
   }
 
@@ -61,12 +70,11 @@ export class UsersComponent implements OnInit {
    * @return [description]
    */
   onScroll() {
-    this.offset = this.offset + this.limit;
-    // fire next query only if the total results are odd.
-    // This is a crude method to check if all records have already been fetched
-    if (this.users.length % 2 === 0) {
+    if (this.all_users.length >= (this.offset + this.limit)) {
+      this.offset = this.offset + this.limit;
       this.getAll();
     }
+
   }
 
 }

@@ -56,7 +56,6 @@ export class UserDetailsComponent implements OnInit {
       this.userService.getOne(this.instance_id, this.user_id).subscribe(
         res => {
           this.user = res;
-          console.log(res);
         },
         error => {
           console.error(error);

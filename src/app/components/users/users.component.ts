@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Observable, of, from } from 'rxjs';
-import { concat, map, merge } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 import { SpinnerService } from 'app/services/spinner.service';
 import { UserService } from 'app/services/user.service';

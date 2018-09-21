@@ -5,4 +5,5 @@ export class User {
   instance_id?: number;
   active = true;
   admin = false;
+  name = '';
 }

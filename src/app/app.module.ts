@@ -2,7 +2,7 @@ import { BrowserModule, enableDebugTools } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HttpClient, HttpHeaders, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHeaders, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -12,26 +12,31 @@ import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
-import { ProjectsSummaryComponent } from 'app/components/projects-summary/projects-summary.component';
 import { InstancesComponent } from 'app/components/instances/instances.component';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DeleteConfirmDialogComponent } from './shared/delete-confirm-dialog/delete-confirm-dialog.component';
 import { NewInstanceComponent } from 'app/components/instances/new-instance/new-instance.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
-
-
+import { AuthGuard } from 'app/guard/auth.guard';
+import { AuthenticationService } from 'app/services/authentication.service';
+import { UserService } from 'app/services/user.service';
+import { JwtInterceptor } from 'app/interceptor/jwt-interceptor';
+import { ErrorInterceptor } from 'app/interceptor/error-interceptor';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavResponsiveComponent,
-    ProjectsSummaryComponent,
     InstancesComponent,
     DeleteConfirmDialogComponent,
     NewInstanceComponent,
     UsersComponent,
     UserDetailsComponent,
+    LoginComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +49,7 @@ import { UserDetailsComponent } from './components/users/user-details/user-detai
     FormsModule,
     SnotifyModule,
     ReactiveFormsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
 
   ],
   entryComponents: [
@@ -54,7 +59,12 @@ import { UserDetailsComponent } from './components/users/user-details/user-detai
     SpinnerService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService,
+    AuthGuard,
+    AuthenticationService,
+    UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent, SidenavResponsiveComponent],
+  bootstrap: [AppComponent, HomeComponent],
 })
 export class AppModule { }

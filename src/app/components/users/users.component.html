@@ -19,6 +19,6 @@
     <span class="badge badge-secondary badge-pill col-sm-2">Instance ID: {{user.instance_id}}</span>
     <span class="badge badge-warning badge-pill col-sm" *ngIf="!user.active">Inactive</span>
     <span class="col-sm">{{user.name}}</span>
-    <a [routerLink]="['./' + user.instance_id + '/' + user.id]" class="ml-auto"><i class="fa fa-info-circle align-right" aria-hidden="true"></i></a>
+    <a [routerLink]="['./' + user.instance_id + '/' + user.id]" class="ml-auto">Click Here</a>
   </li>
 </ul>

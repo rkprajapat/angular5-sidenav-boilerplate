@@ -20,6 +20,7 @@ export class SidenavResponsiveComponent implements OnInit, OnDestroy {
   fillerNav = [
     { name: 'Instances', path: 'instances' },
     { name: 'Users', path: 'users' },
+    { name: 'Resources', path: 'resources'},
     { name: 'Admin', path: 'admin' },
     { name: 'Help', path: 'help' }
   ];

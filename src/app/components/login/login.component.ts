@@ -26,10 +26,10 @@ export class LoginComponent implements OnInit {
     private snotifyService: SnotifyService,
     private spinnerService: SpinnerService) { }
 
-    /**
-     * [ngOnInit description]
-     * @return [description]
-     */
+  /**
+   * [ngOnInit description]
+   * @return [description]
+   */
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.logout();
 
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'main';
   }
 
   // convenience getter for easy access to form fields

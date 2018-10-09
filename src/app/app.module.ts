@@ -4,8 +4,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient, HttpHeaders, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 
 import { MaterialModule } from './material.module';
 
@@ -23,8 +25,12 @@ import { AuthenticationService } from 'app/services/authentication.service';
 import { UserService } from 'app/services/user.service';
 import { JwtInterceptor } from 'app/interceptor/jwt-interceptor';
 import { ErrorInterceptor } from 'app/interceptor/error-interceptor';
-import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from 'app/components/login/login.component';
+import { HomeComponent } from 'app/components/home/home.component';
+import { LoginLayoutComponent } from 'app/components/login-layout/login-layout.component';
+import { HomeLayoutComponent } from './components/home-layout/home-layout.component';
+import { ResourcesComponent } from './components/resources/resources.component';
+import { ResourceDetailsComponent } from './components/resources/resource-details/resource-details.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +43,10 @@ import { HomeComponent } from './components/home/home.component';
     UserDetailsComponent,
     LoginComponent,
     HomeComponent,
+    LoginLayoutComponent,
+    HomeLayoutComponent,
+    ResourcesComponent,
+    ResourceDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +60,7 @@ import { HomeComponent } from './components/home/home.component';
     SnotifyModule,
     ReactiveFormsModule,
     InfiniteScrollModule,
-
+    CommonModule
   ],
   entryComponents: [
     DeleteConfirmDialogComponent,
@@ -65,6 +75,6 @@ import { HomeComponent } from './components/home/home.component';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent, HomeComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
